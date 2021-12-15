@@ -11,6 +11,7 @@
  *
  * If you are seeing this from the future, please, send us your cutting-edge technology :) (if it exists)
  */
+import { number } from 'prop-types';
 import { Component, ReactNode } from 'react';
 import { NativeMethods, ViewProperties, findNodeHandle } from 'react-native';
 
@@ -470,6 +471,8 @@ export interface RecordResponse {
   videoOrientation: number;
   deviceOrientation: number;
   isRecordingInterrupted: boolean;
+  stoppedTimestamp: number;
+  stopAskedTimestamp: number;
   /** iOS only */
   codec: VideoCodec[keyof VideoCodec];
 }
