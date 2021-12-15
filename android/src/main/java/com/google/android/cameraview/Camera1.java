@@ -285,7 +285,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
                     mCallback.onRecordingEnd();
 
                     int deviceOrientation = displayOrientationToOrientationEnum(mDeviceOrientation);
-                    mCallback.onVideoRecorded(mVideoPath, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation);
+                    mCallback.onVideoRecorded(mVideoPath, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation, System.currentTimeMillis(), stopRecordingAskedTimestamp);
                 }
             }
 
@@ -889,6 +889,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     @Override
     void stopRecording() {
         if (mIsRecording.compareAndSet(true, false)) {
+            stopRecordingAskedTimestamp = System.currentTimeMillis();
             stopMediaRecorder();
             if (mCamera != null) {
                 mCamera.lock();
@@ -1646,11 +1647,11 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
             int deviceOrientation = displayOrientationToOrientationEnum(mDeviceOrientation);
 
             if (mVideoPath == null || !new File(mVideoPath).exists()) {
-                mCallback.onVideoRecorded(null, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation);
+                mCallback.onVideoRecorded(null, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation, System.currentTimeMillis(), stopRecordingAskedTimestamp);
                 return;
             }
 
-            mCallback.onVideoRecorded(mVideoPath, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation);
+            mCallback.onVideoRecorded(mVideoPath, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation, System.currentTimeMillis(), stopRecordingAskedTimestamp);
             mVideoPath = null;
         }
     }

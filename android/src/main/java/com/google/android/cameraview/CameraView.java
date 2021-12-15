@@ -628,7 +628,7 @@ public class CameraView extends FrameLayout {
 
     /**
      * Record a video and save it to file. The result will be returned to
-     * {@link Callback#onVideoRecorded(CameraView, String, int, int)}.
+     * {@link Callback#onVideoRecorded(CameraView, String, int, int, Long, Long)}.
      * @param path Path to file that video will be saved to.
      * @param maxDuration Maximum duration of the recording, in seconds.
      * @param maxFileSize Maximum recording file size, in bytes.
@@ -726,9 +726,9 @@ public class CameraView extends FrameLayout {
         }
 
         @Override
-        public void onVideoRecorded(String path, int videoOrientation, int deviceOrientation) {
+        public void onVideoRecorded(String path, int videoOrientation, int deviceOrientation,  Long stoppedTimestamp, Long stopAskedTimestamp) {
             for (Callback callback : mCallbacks) {
-                callback.onVideoRecorded(CameraView.this, path, videoOrientation, deviceOrientation);
+                callback.onVideoRecorded(CameraView.this, path, videoOrientation, deviceOrientation, stoppedTimestamp, stopAskedTimestamp);
             }
         }
 
@@ -888,7 +888,7 @@ public class CameraView extends FrameLayout {
          * @param cameraView The associated {@link CameraView}.
          * @param path       Path to recoredd video file.
          */
-        public void onVideoRecorded(CameraView cameraView, String path, int videoOrientation, int deviceOrientation) {}
+        public void onVideoRecorded(CameraView cameraView, String path, int videoOrientation, int deviceOrientation, Long stoppedTimestamp, Long stopAskedTimestamp) {}
 
         public void onFramePreview(CameraView cameraView, byte[] data, int width, int height, int orientation) {}
 

@@ -350,7 +350,7 @@ class Camera2 extends CameraViewImpl implements MediaRecorder.OnInfoListener, Me
                 mCallback.onRecordingEnd();
 
                 // @TODO: implement videoOrientation and deviceOrientation calculation
-                mCallback.onVideoRecorded(mVideoPath, 0, 0);
+                mCallback.onVideoRecorded(mVideoPath, 0, 0, System.currentTimeMillis(), stopRecordingAskedTimestamp);
                 mIsRecording = false;
             }
         }
@@ -615,6 +615,7 @@ class Camera2 extends CameraViewImpl implements MediaRecorder.OnInfoListener, Me
     @Override
     void stopRecording() {
         if (mIsRecording) {
+            stopRecordingAskedTimestamp = System.currentTimeMillis();
             stopMediaRecorder();
 
             if (mCaptureSession != null) {
@@ -1449,11 +1450,11 @@ class Camera2 extends CameraViewImpl implements MediaRecorder.OnInfoListener, Me
 
         if (mVideoPath == null || !new File(mVideoPath).exists()) {
             // @TODO: implement videoOrientation and deviceOrientation calculation
-            mCallback.onVideoRecorded(null, 0 , 0);
+            mCallback.onVideoRecorded(null, 0 , 0, System.currentTimeMillis(), stopRecordingAskedTimestamp);
             return;
         }
         // @TODO: implement videoOrientation and deviceOrientation calculation
-        mCallback.onVideoRecorded(mVideoPath, 0, 0);
+        mCallback.onVideoRecorded(mVideoPath, 0, 0, System.currentTimeMillis(), stopRecordingAskedTimestamp);
         mVideoPath = null;
     }
 

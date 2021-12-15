@@ -34,6 +34,7 @@ abstract class CameraViewImpl {
 
     protected final Callback mCallback;
     protected final PreviewImpl mPreview;
+    protected Long stopRecordingAskedTimestamp;
 
     // Background handler that the implementation an use to run heavy tasks in background
     // in a thread/looper provided by the view.
@@ -159,7 +160,7 @@ abstract class CameraViewImpl {
 
         void onPictureTaken(byte[] data, int deviceOrientation, int softwareRotation);
 
-        void onVideoRecorded(String path, int videoOrientation, int deviceOrientation);
+        void onVideoRecorded(String path, int videoOrientation, int deviceOrientation, Long stoppedTimestamp, Long stopAskedTimestamp);
 
         void onRecordingStart(String path, int videoOrientation, int deviceOrientation);
 
