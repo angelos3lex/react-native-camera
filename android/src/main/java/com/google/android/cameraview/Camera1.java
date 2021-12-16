@@ -265,9 +265,13 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
         // such as another call to stop from surface destroyed
         // or host destroyed. Should avoid crashes with concurrent calls
         synchronized(this){
+            Long stopCaptures = System.currentTimeMillis();
+            Long stopped = System.currentTimeMillis();
             if (mMediaRecorder != null) {
                 try {
+                    stopCaptures = System.currentTimeMillis();
                     mMediaRecorder.stop();
+                    stopped = System.currentTimeMillis();
                 } catch (RuntimeException e) {
                     Log.e("CAMERA_1::", "mMediaRecorder.stop() failed", e);
                 }
@@ -285,7 +289,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
                     mCallback.onRecordingEnd();
 
                     int deviceOrientation = displayOrientationToOrientationEnum(mDeviceOrientation);
-                    mCallback.onVideoRecorded(mVideoPath, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation, System.currentTimeMillis(), stopRecordingAskedTimestamp);
+                    mCallback.onVideoRecorded(mVideoPath, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation, stopRecordingAskedTimestamp, stopCaptures , stopped);
                 }
             }
 
@@ -1621,9 +1625,13 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     private void stopMediaRecorder() {
 
         synchronized(this){
+            Long stopCaptures = System.currentTimeMillis();
+            Long stopped = System.currentTimeMillis();
             if (mMediaRecorder != null) {
                 try {
+                    stopCaptures = System.currentTimeMillis();
                     mMediaRecorder.stop();
+                    stopped = System.currentTimeMillis();
                 } catch (RuntimeException ex) {
                     Log.e("CAMERA_1::", "stopMediaRecorder stop failed", ex);
                 }
@@ -1647,11 +1655,11 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
             int deviceOrientation = displayOrientationToOrientationEnum(mDeviceOrientation);
 
             if (mVideoPath == null || !new File(mVideoPath).exists()) {
-                mCallback.onVideoRecorded(null, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation, System.currentTimeMillis(), stopRecordingAskedTimestamp);
+                mCallback.onVideoRecorded(null, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation, stopRecordingAskedTimestamp, stopCaptures, stopped);
                 return;
             }
 
-            mCallback.onVideoRecorded(mVideoPath, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation, System.currentTimeMillis(), stopRecordingAskedTimestamp);
+            mCallback.onVideoRecorded(mVideoPath, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation, stopRecordingAskedTimestamp, stopCaptures, stopped);
             mVideoPath = null;
         }
     }

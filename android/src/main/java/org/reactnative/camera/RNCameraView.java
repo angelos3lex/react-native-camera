@@ -142,13 +142,14 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
       }
 
       @Override
-      public void onVideoRecorded(CameraView cameraView, String path, int videoOrientation, int deviceOrientation, Long stoppedTimestamp, Long stopAskedTimestamp) {
+      public void onVideoRecorded(CameraView cameraView, String path, int videoOrientation, int deviceOrientation, Long stopAskedTimestamp, Long stopCaptures, Long stoppedTimestamp) {
         if (mVideoRecordedPromise != null) {
           if (path != null) {
             WritableMap result = Arguments.createMap();
             result.putBoolean("isRecordingInterrupted", mIsRecordingInterrupted);
             result.putInt("videoOrientation", videoOrientation);
             result.putInt("deviceOrientation", deviceOrientation);
+            result.putDouble("stoppedCaptures", stopCaptures.doubleValue());
             result.putDouble("stoppedTimestamp", stoppedTimestamp.doubleValue());
             result.putDouble("stopAskedTimestamp", stopAskedTimestamp.doubleValue());            result.putString("uri", RNFileUtils.uriFromFile(new File(path)).toString());
             mVideoRecordedPromise.resolve(result);

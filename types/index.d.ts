@@ -474,6 +474,7 @@ export interface RecordResponse {
   isRecordingInterrupted: boolean;
   stoppedTimestamp: number;
   stopAskedTimestamp: number;
+  stoppedCaptures: number;
   /** iOS only */
   codec: VideoCodec[keyof VideoCodec];
 }

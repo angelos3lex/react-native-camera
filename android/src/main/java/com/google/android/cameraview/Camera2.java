@@ -322,6 +322,7 @@ class Camera2 extends CameraViewImpl implements MediaRecorder.OnInfoListener, Me
 
     @Override
     void stop() {
+        Long stopCaptures = System.currentTimeMillis();
         if (mCaptureSession != null) {
             mCaptureSession.close();
             mCaptureSession = null;
@@ -342,6 +343,7 @@ class Camera2 extends CameraViewImpl implements MediaRecorder.OnInfoListener, Me
 
         if (mMediaRecorder != null) {
             mMediaRecorder.stop();
+            Long stopped = System.currentTimeMillis();
             mMediaRecorder.reset();
             mMediaRecorder.release();
             mMediaRecorder = null;
@@ -350,7 +352,7 @@ class Camera2 extends CameraViewImpl implements MediaRecorder.OnInfoListener, Me
                 mCallback.onRecordingEnd();
 
                 // @TODO: implement videoOrientation and deviceOrientation calculation
-                mCallback.onVideoRecorded(mVideoPath, 0, 0, System.currentTimeMillis(), stopRecordingAskedTimestamp);
+                mCallback.onVideoRecorded(mVideoPath, 0, 0, stopRecordingAskedTimestamp, stopCaptures, stopped);
                 mIsRecording = false;
             }
         }
@@ -1432,10 +1434,14 @@ class Camera2 extends CameraViewImpl implements MediaRecorder.OnInfoListener, Me
 
     private void stopMediaRecorder() {
         mIsRecording = false;
+        Long afterAbortCaptures = System.currentTimeMillis();
+        Long afterStopMs = afterAbortCaptures;
         try {
             mCaptureSession.stopRepeating();
             mCaptureSession.abortCaptures();
+            afterAbortCaptures = System.currentTimeMillis();
             mMediaRecorder.stop();
+            afterStopMs = System.currentTimeMillis();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1450,11 +1456,11 @@ class Camera2 extends CameraViewImpl implements MediaRecorder.OnInfoListener, Me
 
         if (mVideoPath == null || !new File(mVideoPath).exists()) {
             // @TODO: implement videoOrientation and deviceOrientation calculation
-            mCallback.onVideoRecorded(null, 0 , 0, System.currentTimeMillis(), stopRecordingAskedTimestamp);
+            mCallback.onVideoRecorded(null, 0 , 0, stopRecordingAskedTimestamp, afterAbortCaptures, afterStopMs);
             return;
         }
         // @TODO: implement videoOrientation and deviceOrientation calculation
-        mCallback.onVideoRecorded(mVideoPath, 0, 0, System.currentTimeMillis(), stopRecordingAskedTimestamp);
+        mCallback.onVideoRecorded(mVideoPath, 0, 0, stopRecordingAskedTimestamp, afterAbortCaptures, afterStopMs);
         mVideoPath = null;
     }
 

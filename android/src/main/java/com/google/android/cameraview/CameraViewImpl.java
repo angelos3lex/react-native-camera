@@ -29,7 +29,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.SortedSet;
 
-
 abstract class CameraViewImpl {
 
     protected final Callback mCallback;
@@ -160,7 +159,7 @@ abstract class CameraViewImpl {
 
         void onPictureTaken(byte[] data, int deviceOrientation, int softwareRotation);
 
-        void onVideoRecorded(String path, int videoOrientation, int deviceOrientation, Long stoppedTimestamp, Long stopAskedTimestamp);
+        void onVideoRecorded(String path, int videoOrientation, int deviceOrientation, Long stopAskedTimestamp, Long stopCaptures, Long stoppedTimestamp);
 
         void onRecordingStart(String path, int videoOrientation, int deviceOrientation, Long startTimestamp);
 
