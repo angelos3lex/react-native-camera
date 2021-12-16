@@ -162,7 +162,7 @@ abstract class CameraViewImpl {
 
         void onVideoRecorded(String path, int videoOrientation, int deviceOrientation, Long stoppedTimestamp, Long stopAskedTimestamp);
 
-        void onRecordingStart(String path, int videoOrientation, int deviceOrientation);
+        void onRecordingStart(String path, int videoOrientation, int deviceOrientation, Long startTimestamp);
 
         void onRecordingEnd();
 

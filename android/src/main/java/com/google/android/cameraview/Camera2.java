@@ -598,7 +598,7 @@ class Camera2 extends CameraViewImpl implements MediaRecorder.OnInfoListener, Me
 
                 // @TODO: implement videoOrientation and deviceOrientation calculation
                 // same TODO as onVideoRecorded
-                mCallback.onRecordingStart(mVideoPath, 0, 0);
+                mCallback.onRecordingStart(mVideoPath, 0, 0, System.currentTimeMillis());
 
                 if (mPlaySoundOnRecord) {
                     sound.play(MediaActionSound.START_VIDEO_RECORDING);

@@ -204,6 +204,7 @@ export interface RNCameraProps {
       uri: string;
       videoOrientation: number;
       deviceOrientation: number;
+      startTimestamp: number;
     };
   }): void;
   onRecordingEnd?(): void;

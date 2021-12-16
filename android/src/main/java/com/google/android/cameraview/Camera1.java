@@ -870,7 +870,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
                 }
 
                 int deviceOrientation = displayOrientationToOrientationEnum(mDeviceOrientation);
-                mCallback.onRecordingStart(path, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation);
+                mCallback.onRecordingStart(path, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation, System.currentTimeMillis());
 
                 if (mPlaySoundOnRecord) {
                     sound.play(MediaActionSound.START_VIDEO_RECORDING);

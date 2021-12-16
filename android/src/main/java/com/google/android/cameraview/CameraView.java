@@ -712,9 +712,9 @@ public class CameraView extends FrameLayout {
         }
 
         @Override
-        public void onRecordingStart(String path, int videoOrientation, int deviceOrientation) {
+        public void onRecordingStart(String path, int videoOrientation, int deviceOrientation, Long startTimestamp) {
             for (Callback callback : mCallbacks) {
-                callback.onRecordingStart(CameraView.this, path, videoOrientation, deviceOrientation);
+                callback.onRecordingStart(CameraView.this, path, videoOrientation, deviceOrientation, startTimestamp);
             }
         }
 
@@ -872,7 +872,7 @@ public class CameraView extends FrameLayout {
          * @param cameraView The associated {@link CameraView}.
          * @param path       Path to recoredd video file.
          */
-        public void onRecordingStart(CameraView cameraView, String path, int videoOrientation, int deviceOrientation) {}
+        public void onRecordingStart(CameraView cameraView, String path, int videoOrientation, int deviceOrientation, Long startTimestamp) {}
 
         /**
          * Called when a video recording ends, but before video is saved/processed.

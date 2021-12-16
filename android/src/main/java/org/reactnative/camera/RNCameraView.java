@@ -127,11 +127,12 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
       }
 
       @Override
-      public void onRecordingStart(CameraView cameraView, String path, int videoOrientation, int deviceOrientation) {
+      public void onRecordingStart(CameraView cameraView, String path, int videoOrientation, int deviceOrientation, Long startTimestamp) {
         WritableMap result = Arguments.createMap();
         result.putInt("videoOrientation", videoOrientation);
         result.putInt("deviceOrientation", deviceOrientation);
         result.putString("uri", RNFileUtils.uriFromFile(new File(path)).toString());
+        result.putDouble("startTimestamp", startTimestamp.doubleValue());
         RNCameraViewHelper.emitRecordingStartEvent(cameraView, result);
       }
 
