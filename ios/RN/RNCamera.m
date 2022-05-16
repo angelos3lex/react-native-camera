@@ -1266,10 +1266,12 @@ BOOL _sessionInterrupted = NO;
                 self.videoRecordedResolve = resolve;
                 self.videoRecordedReject = reject;
 
+                long long milliseconds = (long long)([[NSDate date] timeIntervalSince1970] * 1000.0);
                 [self onRecordingStart:@{
                     @"uri": outputURL.absoluteString,
                     @"videoOrientation": @([self.orientation integerValue]),
-                    @"deviceOrientation": @([self.deviceOrientation integerValue])
+                    @"deviceOrientation": @([self.deviceOrientation integerValue]),
+                    @"startTimestamp": @([[NSNumber numberWithLongLong:milliseconds] doubleValue])
                 }];
 
             }
@@ -1942,6 +1944,11 @@ BOOL _sessionInterrupted = NO;
         result[@"deviceOrientation"] = @([self.deviceOrientation integerValue]);
         result[@"isRecordingInterrupted"] = @(self.isRecordingInterrupted);
 
+        long long milliseconds = (long long)([[NSDate date] timeIntervalSince1970] * 1000.0);
+        
+        result[@"stopAskedTimestamp"] = @([[NSNumber numberWithLongLong:milliseconds] doubleValue]);
+        result[@"stoppedTimestamp"] = @([[NSNumber numberWithLongLong:milliseconds] doubleValue]);
+        result[@"stoppedCaptures"] =@([[NSNumber numberWithLongLong:milliseconds] doubleValue]);
 
         if (@available(iOS 10, *)) {
             AVVideoCodecType videoCodec = self.videoCodecType;
